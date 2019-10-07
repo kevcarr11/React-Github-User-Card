@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import './App.css'
 import axios from 'axios';
 import UserCard from "./components/UserCard"
+import SelectUserForm from "./components/SelectUserForm"
+import SearchUserForm from "./components/SearchUserForm"
+
 
 export default class App extends Component {
   constructor() {
     super()
 
-    // this.state = {
-    //   userName: 'kevcarr11',
-    //   userInfo: [],
-    //   followers: []
-      
-    // }
     this.state = {
       userName: '',
       userInfo: [],
@@ -78,38 +75,33 @@ handleSubmit = (e) => {
 
   render() {
     return (
-      <div className="App">
-        <h1>Github UserCard</h1>
-
-        {/* <select value={this.state.userName} onChange={this.handleChange} >
-          <option value="kevcarr11">Kevin</option>
-          <option value="bigknell">Josh</option>
-          <option value="tetondan">Dan Frehner</option>
-          <option value="dustinmyers">Dustin</option> 
-          <option value="justsml">Dan Levy</option> 
-          <option value="luishrd">Luis</option> 
-          <option value="LaikaFusion">Andrew McLaughlin</option> 
-          <option value="cladams0203">Chris Adams</option> 
-          <option value="JacobWilliams90">Jacob Williams</option> 
-        </select> */}
-
-      <form onSubmit={this.handleSubmit} onChange={this.handleChange} >
-        <input
-          type="search"
-          value={this.state.value}
-          placeholder="Search Github User name"
-          // onChange={this.handleChange}
+      <div className="App container">
+        <div className="header">
+          <img src = {require ("./img/lambdalogo.png")} alt="Lambda Logo"/>
+          <span role="img">❤️'s</span>
+          <img src = {require ("./img/githublogo.png")} alt="GitHub Logo" />
+        </div>
+      <div className="header" >
+        <SelectUserForm 
+        userName={this.state.UserName}
+        handleChange={this.handleChange}
         />
-      </form>
+        <SearchUserForm 
+        onSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+        value={this.state.value}
+        />
+      </div>
+
 
       {this.state.userName ? <UserCard 
       userInfo={this.state.userInfo} 
       userName={this.state.userName}
       followers={this.state.followers}
       />
-      : <h3>Search for User Name</h3>
-
+      : <h3>Select or Search A Github User Name</h3>
       }
+
       </div>
     )
   }
