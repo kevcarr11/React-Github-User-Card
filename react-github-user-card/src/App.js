@@ -11,32 +11,39 @@ export default class App extends Component {
 
     this.state = {
       userName: 'kevcarr11',
-      userInfo: []
+      userInfo: [],
+      followers: []
+      
     }
   }
 
   componentDidMount() {
     this.getUserData()
+    this.getUserFollowers()
   }
 
  componentDidUpdate(prevProps, prevState) {
   if(prevState.userName !== this.state.userName) {
     this.setState({
       userInfo: [],
+      followers: []
+      
     })
     this.getUserData()
+    this.getUserFollowers()
+   
   }
  }
 
  getUserData = () => {
    axios.get(`http://api.github.com/users/${this.state.userName}`)
     .then(res => {
-      console.log(res.data)
       this.setState({
         userInfo: res.data
       })
     })
     .catch(err => console.log(err))
+
  }
 
  handleChange = (e) => {
@@ -45,6 +52,17 @@ export default class App extends Component {
    })
  }
 
+ getUserFollowers = () => {
+  axios.get(`http://api.github.com/users/${this.state.userName}/followers`)
+   .then(res => {
+     this.setState({
+       followers: res.data
+     })
+   })
+   .catch(err => console.log(err))
+ }
+
+ 
 
   render() {
     return (
@@ -54,28 +72,16 @@ export default class App extends Component {
         <select value={this.state.userName} onChange={this.handleChange} >
           <option value="kevcarr11">Kevin</option>
           <option value="bigknell">Josh</option>
-          <option value="tetondan">tetondan</option>
-          <option value="dustinmyers">dustinmyers</option> 
-          <option value="justsml">justsml</option> 
-          <option value="luishrd">luishrd</option> 
+          <option value="tetondan">Dan Frehner</option>
+          <option value="dustinmyers">Dustin</option> 
+          <option value="justsml">Dan Levy</option> 
+          <option value="luishrd">Luis</option> 
+          <option value="LaikaFusion">Andrew McLaughlin</option> 
+          <option value="cladams0203">Chris Adams</option> 
+          <option value="JacobWilliams90">Jacob Williams</option> 
         </select>
+
         <main>
-          {/* <Card style={{ width: '20rem' }}> 
-            <Card.Img variant="top" src={this.state.userInfo.avatar_url} className="img" />
-            <Card.Body>
-              <Card.Title>{this.state.userInfo.name}</Card.Title>
-              <Card.Text>{this.state.userInfo.bio}</Card.Text>
-            </Card.Body>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>My Followers: </ListGroupItem>
-              <ListGroupItem>Following: </ListGroupItem>
-              <ListGroupItem>Location: </ListGroupItem>
-              <ListGroupItem>Number of Public Repos: </ListGroupItem>
-            </ListGroup>
-            <Card.Body>
-              <Card.Link href={this.state.userInfo.html_url}>View Profile</Card.Link>
-            </Card.Body>
-          </Card> */}
           <Card className="text-center">
             <Card.Header>{this.state.userInfo.name}</Card.Header>
             <Card.Body>
@@ -83,10 +89,12 @@ export default class App extends Component {
               <Card.Text>{this.state.userInfo.bio}</Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
-              <ListGroupItem>My Followers: {this.state.userInfo.followers} </ListGroupItem>
-              <ListGroupItem>Following: {this.state.userInfo.following} </ListGroupItem>
-              <ListGroupItem>Location: {this.state.userInfo.location} </ListGroupItem>
-              <ListGroupItem>Number of Public Repos: {this.state.userInfo.public_repos} </ListGroupItem>
+              <ListGroupItem><h4>My Followers:</h4>{this.state.followers.map((item, index) => (
+                <p key={index}>{item.login}</p>
+              ))}</ListGroupItem>
+              <ListGroupItem><h4>Following:</h4>{this.state.userInfo.following} </ListGroupItem>
+              <ListGroupItem><h4>Location:</h4> {this.state.userInfo.location} </ListGroupItem>
+              <ListGroupItem><h4>Number of Public Repos:</h4>{this.state.userInfo.public_repos} </ListGroupItem>
             </ListGroup>
             <Card.Body>
               <Card.Link href={this.state.userInfo.html_url}>View Profile</Card.Link>

@@ -17,3 +17,10 @@ main {
   display: flex;
   justify-content: center;
 }
+
+
+.list-group-item {
+  width: auto;
+}
+
+
