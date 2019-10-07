@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App'
+import './App.css'
 import axios from 'axios';
 
 export default class App extends Component {
@@ -44,7 +44,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
+      <main>
         <h1>Github UserCard</h1>
 
         <select value={this.state.userName} onChange={this.handleChange} >
@@ -74,7 +74,7 @@ export default class App extends Component {
         <img src={this.state.userInfo.avatar_url} alt="github user" />
       </div>
        
-      </>
+      </main>
     )
   }
 };
