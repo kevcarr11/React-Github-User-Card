@@ -19,7 +19,7 @@ export default class App extends Component {
  componentDidUpdate(prevProps, prevState) {
   if(prevState.userName !== this.state.userName) {
     this.setState({
-      userInfo: []
+      userInfo: [],
     })
     this.getUserData()
   }
@@ -41,26 +41,20 @@ export default class App extends Component {
    })
  }
 
- handleSubmit = (e) => {
-   e.preventDefault()
-   this.setState({
-     value: ""
-   })
- }
 
   render() {
     return (
       <>
         <h1>Github UserCard</h1>
 
-        <form onSubmit={this.handleSubmit} >
-          <input
-           type="text"
-           value={this.state.userName}
-           onChange={this.handleChange}
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <select value={this.state.userName} onChange={this.handleChange} >
+          <option value="kevcarr11">Kevin</option>
+          <option value="bigknell">Josh</option>
+          <option value="tetondan">tetondan</option>
+          <option value="dustinmyers">dustinmyers</option> 
+          <option value="justsml">justsml</option> 
+          <option value="luishrd">luishrd</option> 
+        </select>
        
       <div>
       {/* <div class="card">
