@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import './App.css'
 import axios from 'axios';
-import Card from "react-bootstrap/Card"
-import ListGroup from "react-bootstrap/ListGroup"
-import ListGroupItem from "react-bootstrap/ListGroupItem"
+import UserCard from "./components/UserCard"
 
 export default class App extends Component {
   constructor() {
     super()
 
+    // this.state = {
+    //   userName: 'kevcarr11',
+    //   userInfo: [],
+    //   followers: []
+      
+    // }
     this.state = {
-      userName: 'kevcarr11',
+      userName: '',
       userInfo: [],
       followers: []
       
@@ -52,6 +56,14 @@ export default class App extends Component {
    })
  }
 
+handleSubmit = (e) => {
+  e.preventDefault()
+  this.setState({
+    userName: ""
+  })
+}
+
+
  getUserFollowers = () => {
   axios.get(`http://api.github.com/users/${this.state.userName}/followers`)
    .then(res => {
@@ -69,7 +81,7 @@ export default class App extends Component {
       <div className="App">
         <h1>Github UserCard</h1>
 
-        <select value={this.state.userName} onChange={this.handleChange} >
+        {/* <select value={this.state.userName} onChange={this.handleChange} >
           <option value="kevcarr11">Kevin</option>
           <option value="bigknell">Josh</option>
           <option value="tetondan">Dan Frehner</option>
@@ -79,30 +91,25 @@ export default class App extends Component {
           <option value="LaikaFusion">Andrew McLaughlin</option> 
           <option value="cladams0203">Chris Adams</option> 
           <option value="JacobWilliams90">Jacob Williams</option> 
-        </select>
+        </select> */}
 
-        <main>
-          <Card className="text-center">
-            <Card.Header>{this.state.userInfo.name}</Card.Header>
-            <Card.Body>
-              <Card.Title>{<img src={this.state.userInfo.avatar_url} alt="github avatar" />}</Card.Title>
-              <Card.Text>{this.state.userInfo.bio}</Card.Text>
-            </Card.Body>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem><h4>My Followers:</h4>{this.state.followers.map((item, index) => (
-                <p key={index}>{item.login}</p>
-              ))}</ListGroupItem>
-              <ListGroupItem><h4>Following:</h4>{this.state.userInfo.following} </ListGroupItem>
-              <ListGroupItem><h4>Location:</h4> {this.state.userInfo.location} </ListGroupItem>
-              <ListGroupItem><h4>Number of Public Repos:</h4>{this.state.userInfo.public_repos} </ListGroupItem>
-            </ListGroup>
-            <Card.Body>
-              <Card.Link href={this.state.userInfo.html_url}>View Profile</Card.Link>
-            </Card.Body>
-            <Card.Footer className="text-muted">{this.state.userInfo.type}</Card.Footer>
-          </Card>
+      <form onSubmit={this.handleSubmit} onChange={this.handleChange} >
+        <input
+          type="search"
+          value={this.state.value}
+          placeholder="Search Github User name"
+          // onChange={this.handleChange}
+        />
+      </form>
 
-        </main>
+      {this.state.userName ? <UserCard 
+      userInfo={this.state.userInfo} 
+      userName={this.state.userName}
+      followers={this.state.followers}
+      />
+      : <h3>Search for User Name</h3>
+
+      }
       </div>
     )
   }
